@@ -10,13 +10,13 @@ jobs:
     steps:
       - shell: bash
         run: |
-          expr 3 + 7 > math-homework.txt
+          expr 3 + 7 > math-"$MLPACK_VERSION".txt
           echo mlpack_"$MLPACK_VERSION".tar.gz
       - name: Upload math result for job 1
         uses: actions/upload-artifact@v2
         with:
           name: homework
-          path: math-homework.txt
+          path: math-"$MLPACK_VERSION".txt
 
   job_2:
     name: Multiply by 9
