@@ -1,22 +1,23 @@
 name: Share data between jobs
 
 on: [push]
-env:
-  MLPACK_VERSION: 3.2.3
 jobs:
   job_1:
     name: Add 3 and 7
     runs-on: ubuntu-latest
     steps:
-      - shell: bash
+      - name:  see
+        shell: bash
         run: |
-          expr 3 + 7 > math-"$MLPACK_VERSION".txt
-          echo mlpack_"$env:MLPACK_VERSION".tar.gz
+          MLPACK_VERSION_VALUE=3.2.3
+          echo ::set-output name=mlpack_r_bin::$(echo mlpack_"$MLPACK_VERSION_VALUE".tar.gz)
+          expr 3 + 7 > math-homework.txt
+          echo mlpack_"$MLPACK_VERSION_VALUE".tar.gz
       - name: Upload math result for job 1
         uses: actions/upload-artifact@v2
         with:
-          name: homework
-          path: math-"$env:MLPACK_VERSION".txt
+          name: homework-"steps.see.outputs.mlpack_r_bin"
+          path: math-homework.txt
 
   job_2:
     name: Multiply by 9
@@ -26,11 +27,11 @@ jobs:
       - name: Download math result for job 1
         uses: actions/download-artifact@v2
         with:
-          name: homework
+          name: homework-"job_1.steps.see.outputs.mlpack_r_bin"
       - shell: bash
         run: |
           value=`cat math-homework.txt`
-          expr $value \* 9 > math-$env:MLPACK_VERSION.txt
+          expr $value \* 9 > math-homework.txt
       - name: Upload math result for job 2
         uses: actions/upload-artifact@v2
         with:
