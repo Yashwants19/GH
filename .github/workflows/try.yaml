@@ -6,11 +6,11 @@ jobs:
     name: Add 3 and 7
     runs-on: ubuntu-latest
     steps:
-      - name:  see
+      - id: see
         shell: bash
         run: |
           MLPACK_VERSION_VALUE=3.2.3
-          echo ::set-output name=mlpack_r_bin::$(echo mlpack_"$MLPACK_VERSION_VALUE".tar.gz)
+          echo ::set-output name=mlpack_r_bin::$(echo $MLPACK_VERSION_VALUE)
           expr 3 + 7 > math-${{ steps.see.outputs.mlpack_r_bin }}.txt
           echo mlpack_${{ steps.see.outputs.mlpack_r_bin }}.tar.gz
       - name: Upload math result for job 1
