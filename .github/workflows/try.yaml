@@ -5,16 +5,18 @@ jobs:
   job_1:
     name: Add 3 and 7
     runs-on: ubuntu-latest
+    outputs:
+      r_bindings: ${{ steps.see1.outputs.mlpack_r_bin }}
     steps:
-      - name: Set 
-        id: see
+      - name: Set
+        id: see1
         run: |
           MLPACK_VERSION_VALUE=3.2.3
           echo ::set-output name=mlpack_r_bin::$(echo mlpack_$MLPACK_VERSION_VALUE)
       - shell: bash
         run: |
           expr 3 + 7 > math-homework.txt
-          echo ${{ steps.see.outputs.mlpack_r_bin }}
+          echo ${{ steps.see1.outputs.mlpack_r_bin }}
       - name: Upload math result for job 1
         uses: actions/upload-artifact@v2
         with:
@@ -29,15 +31,15 @@ jobs:
       - name: echo
         shell: bash
         run: |
-          echo ${{ needs.job_1.outputs.mlpack_r_bin }}
+          echo ${{ needs.job_1.outputs.r_bindings }}
       - name: Download math result for job 1
         uses: actions/download-artifact@v2
         with:
           name: homework
       - shell: bash
         run: |
-          value=`cat math-${{ needs.job_1.outputs.mlpack_r_bin }}.txt`
-          expr $value \* 9 > math-${{ needs.job_1.outputs.mlpack_r_bin }}.txt
+          value=`cat math-${{ needs.job_1.outputs.r_bindings }}.txt`
+          expr $value \* 9 > math-${{ needs.job_1.outputs.r_bindings }}.txt
       - name: Upload math result for job 2
         uses: actions/upload-artifact@v2
         with:
