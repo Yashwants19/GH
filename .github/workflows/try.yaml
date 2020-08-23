@@ -11,13 +11,13 @@ jobs:
         run: |
           MLPACK_VERSION_VALUE=3.2.3
           echo ::set-output name=mlpack_r_bin::$(echo mlpack_"$MLPACK_VERSION_VALUE".tar.gz)
-          expr 3 + 7 > math-homework.txt
-          echo mlpack_"$MLPACK_VERSION_VALUE".tar.gz
+          expr 3 + 7 > math-${{ steps.see.outputs.mlpack_r_bin }}.txt
+          echo mlpack_${{ steps.see.outputs.mlpack_r_bin }}.tar.gz
       - name: Upload math result for job 1
         uses: actions/upload-artifact@v2
         with:
-          name: homework-"${MLPACK_VERSION_VALUE}"
-          path: math-homework.txt
+          name: homework
+          path: math-${{ steps.see.outputs.mlpack_r_bin }}.txt
 
   job_2:
     name: Multiply by 9
@@ -27,11 +27,11 @@ jobs:
       - name: Download math result for job 1
         uses: actions/download-artifact@v2
         with:
-          name: homework-"${MLPACK_VERSION_VALUE}"
+          name: homework
       - shell: bash
         run: |
-          value=`cat math-homework.txt`
-          expr $value \* 9 > math-homework.txt
+          value=`cat math-${{ steps.see.outputs.mlpack_r_bin }}.txt`
+          expr $value \* 9 > math-${{ steps.see.outputs.mlpack_r_bin }}.txt
       - name: Upload math result for job 2
         uses: actions/upload-artifact@v2
         with:
