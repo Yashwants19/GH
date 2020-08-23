@@ -1,7 +1,8 @@
 name: Share data between jobs
 
 on: [push]
-
+env:
+  MLPACK_VERSION: 3.2.3
 jobs:
   job_1:
     name: Add 3 and 7
@@ -10,6 +11,7 @@ jobs:
       - shell: bash
         run: |
           expr 3 + 7 > math-homework.txt
+          echo mlpack_"$MLPACK_VERSION".tar.gz
       - name: Upload math result for job 1
         uses: actions/upload-artifact@v2
         with:
