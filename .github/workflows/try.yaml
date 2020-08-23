@@ -6,15 +6,14 @@ jobs:
     name: Add 3 and 7
     runs-on: ubuntu-latest
     steps:
-      - id: see
-        shell: bash
+      - shell: bash
         run: |
           MLPACK_VERSION_VALUE=3.2.3
-          echo "::set-output name=mlpack_r_bin::$(echo $MLPACK_VERSION_VALUE)"
           expr 3 + 7 > math-homework.txt
           echo mlpack_.tar.gz
-          echo ${{ steps.see.outputs.mlpack_r_bin }}
-
+      - id: see
+        run: echo "::set-output name=mlpack_r_bin::$(echo mlpack_$MLPACK_VERSION_VALUE)"
+      
       - name: Upload math result for job 1
         uses: actions/upload-artifact@v2
         with:
