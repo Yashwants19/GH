@@ -13,6 +13,8 @@ jobs:
           echo "::set-output name=mlpack_r_bin::$(echo $MLPACK_VERSION_VALUE)"
           expr 3 + 7 > math-homework.txt
           echo mlpack_.tar.gz
+          echo ${{ steps.see.outputs.mlpack_r_bin }}
+
       - name: Upload math result for job 1
         uses: actions/upload-artifact@v2
         with:
